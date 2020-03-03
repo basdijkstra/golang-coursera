@@ -35,10 +35,14 @@ func main() {
 
 	var waitGroup sync.WaitGroup
 
-	waitGroup.Add(5)
 	for k := 0; k < 5; k++ {
-		go Philosophers[k].Eat()
-		waitGroup.Done()
+
+		waitGroup.Add(1)
+		go func(index int) {
+			Philosophers[index].Eat()
+			waitGroup.Done()
+		}(k)
+
 	}
 	waitGroup.Wait()
 }
